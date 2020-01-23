@@ -1,13 +1,13 @@
 import * as React from 'react';
-import {CognitoAuth} from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
+import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
 } from '../credentials/cognito';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import fetchFromCookie from '../util/fetchFromCookie';
-import {actions as authActions} from '../store/reducers/auth';
+import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -25,11 +25,11 @@ if (!process.tapEventInjected) {
 const Layout = (Page) => {
   class Wrapped extends React.Component {
     static async getInitialProps(ctx) {
-      const {req} = ctx;
+      const { req } = ctx;
       const childProps = Page.getInitialProps ? Page.getInitialProps(ctx) : {};
       const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
 
-      const props = Object.assign({}, childProps, {userAgent});
+      const props = Object.assign({}, childProps, { userAgent });
 
       // pick token from cookie
       const cookies = await fetchFromCookie(req);
@@ -50,7 +50,7 @@ const Layout = (Page) => {
           const token = result.idToken.jwtToken;
           this.props.login(token);
         },
-        onFailure: function(err) {
+        onFailure: function (err) {
           alert('Error!');
         },
       };
@@ -77,7 +77,7 @@ const Layout = (Page) => {
           {
             this.props.auth.signingIn ?
               <div>loading...</div> :
-              <Page {...this.props}/>
+              <Page {...this.props} />
           }
         </MuiThemeProvider>
       </div>;
@@ -100,7 +100,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => {
-  return bindActionCreators({...authActions}, dispatch);
+  return bindActionCreators({ ...authActions }, dispatch);
 };
 
 

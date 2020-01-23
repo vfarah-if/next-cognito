@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Field, reduxForm, submit} from 'redux-form';
-import {RadioButton} from 'material-ui/RadioButton';
-import {DatePicker, RadioButtonGroup, TextField} from 'redux-form-material-ui';
-import {connect} from 'react-redux';
+import { Field, reduxForm, submit } from 'redux-form';
+import { RadioButton } from 'material-ui/RadioButton';
+import { DatePicker, RadioButtonGroup, TextField } from 'redux-form-material-ui';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -44,7 +44,7 @@ const submitProcess = (values, dispatch, props) => {
 };
 
 const RemoteSubmitButton = (props) => {
-  const {dispatch, submitting, invalid} = props;
+  const { dispatch, submitting, invalid } = props;
 
   return <Button
     variant="contained"
@@ -61,9 +61,9 @@ RemoteSubmitButton.propTypes = {
 
 const SubmitButton = connect((state) => state)(RemoteSubmitButton);
 
-const withError = ({meta, props}) => (
+const withError = ({ meta, props }) => (
   <div>
-    <span {...props} className='error'>Error : {meta.error}</span><br/>
+    <span {...props} className='error'>Error : {meta.error}</span><br />
     <span {...props} className='warn'>Warn: {meta.warning}</span>
   </div>
 );
@@ -73,7 +73,7 @@ withError.propTypes = {
   props: PropTypes.object.isRequired,
 };
 
-const birthdayWithError = ({input, meta, ...props}) => {
+const birthdayWithError = ({ input, meta, ...props }) => {
   return <div>
     <Field
       name="birthday"
@@ -82,7 +82,7 @@ const birthdayWithError = ({input, meta, ...props}) => {
       floatingLabelText="birthday"
       error="sss"
     />
-    {withError({meta, props})}
+    {withError({ meta, props })}
   </div>;
 };
 
@@ -92,14 +92,14 @@ birthdayWithError.propTypes = {
   props: PropTypes.object,
 };
 
-const languageWithError = ({input, meta, ...props}) => {
+const languageWithError = ({ input, meta, ...props }) => {
   return <div>
     <Field name="language" component={RadioButtonGroup}>
-      <RadioButton value="cpp" label="C++"/>
-      <RadioButton value="scala" label="Scala"/>
-      <RadioButton value="haskell" label="Haskell"/>
+      <RadioButton value="cpp" label="C++" />
+      <RadioButton value="scala" label="Scala" />
+      <RadioButton value="haskell" label="Haskell" />
     </Field>
-    {withError({meta, props})}
+    {withError({ meta, props })}
   </div>;
 };
 
@@ -110,7 +110,7 @@ languageWithError.propTypes = {
 };
 
 const SyncValidationForm = (props) => {
-  const {pristine, reset, submitting, error, invalid} = props;
+  const { pristine, reset, submitting, error, invalid } = props;
 
   return (
     <form>
@@ -120,21 +120,21 @@ const SyncValidationForm = (props) => {
           type="text"
           component={TextField}
           hintText="esplo"
-          floatingLabelText="username"/>
+          floatingLabelText="username" />
       </div>
 
       <div>
-        <Field name="birthday" component={birthdayWithError}/>
+        <Field name="birthday" component={birthdayWithError} />
       </div>
 
       <div>
-        <Field name="language" component={languageWithError}/>
+        <Field name="language" component={languageWithError} />
       </div>
 
       {error && <strong>{error}</strong>}
 
       <div>
-        <SubmitButton submitting={submitting} invalid={invalid}/>
+        <SubmitButton submitting={submitting} invalid={invalid} />
         <Button
           variant="outlined"
           disabled={pristine || submitting}

@@ -1,6 +1,6 @@
 # next-js-cognito-frontend
 
-a SPA exmaple by Next.js with amazon-cognito-auth-js
+a SPA example by Next.js with amazon-cognito-auth-js
 
 ## this example illustrates
 
@@ -28,8 +28,15 @@ remove `.sample` from `credential/cognito.json.sample`, and modify it
 ### development
 
 ```bash
+# Bash
 $ docker build --target dev -t next-cognito-dev .
 $ docker run -it -v $(pwd):/app -p 3111:3000 next-cognito-dev
+```
+
+```powershell
+# Powershell
+$ docker build --target dev -t next-cognito-dev .
+$ docker run -it -v ${pwd}:/app -p 3111:3000 next-cognito-dev
 ```
 
 access http://localhost:3111/

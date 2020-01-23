@@ -8,7 +8,7 @@ const settings = {
     COGNITO_LOGIN_REDIRECT_SIGNOUT_URL: 'http://localhost:3111/',
     TOKEN_SCOPES: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
 };
-// console.log(settings);
+
 export const cognitoAuthData = () => ({
     ClientId: settings.CLIENT_ID,
     AppWebDomain: settings.COGNITO_HOSTING_DOMAIN,

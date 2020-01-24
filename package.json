@@ -7,9 +7,9 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "node server.js",
+    "dev:debug": "node --inspect node_modules/next/dist/bin/next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
-    "start:windows": "SET NODE_ENV=production node server.js"
+    "start": "NODE_ENV=production node server.js"
   },
   "author": "Altered to test concept",
   "dependencies": {

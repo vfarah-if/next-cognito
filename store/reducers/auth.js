@@ -1,5 +1,5 @@
 import { createActions, handleActions } from 'redux-actions';
-import { COGNITO_ID_TOKEN_COOKIE_NAME } from '../../credentials/cognito';
+import { COGNITO_ID_TOKEN_COOKIE_NAME, EXPIRE_IN_THIRTY_MIN } from '../../config/cognito';
 
 import Cookie from 'js-cookie';
 
@@ -24,12 +24,14 @@ const reducer = handleActions({
     return { ...state, signingIn };
   },
   [actions.login](state, { payload: { idToken } }) {
-    // set into cookie for SSR
-    // TODO: exact expiration time
+    // set into cookie for Server Side Rendering
     Cookie.set(
       COGNITO_ID_TOKEN_COOKIE_NAME,
       idToken,
-      { secure: true, expires: 1 / 48 }
+      {
+        secure: true,
+        expires: EXPIRE_IN_THIRTY_MIN,
+      }
     );
     return { ...state, idToken, signingIn: false };
   },

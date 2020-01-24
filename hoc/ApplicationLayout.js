@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
-import {
+import {  
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
-} from '../credentials/cognito';
+} from '../config/cognito';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import fetchFromCookie from '../util/fetchFromCookie';
@@ -103,7 +103,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ ...authActions }, dispatch);
 };
-
 
 export default (Page) => connect(
   mapStateToProps,

@@ -17,3 +17,5 @@ export const cognitoAuthData = () => ({
     RedirectUriSignOut: settings.COGNITO_LOGIN_REDIRECT_SIGNOUT_URL
 });
 export const COGNITO_ID_TOKEN_COOKIE_NAME = 'cognito-id-token';
+export const EXPIRE_IN_HALF_A_DAY = 0.5;
+export const EXPIRE_IN_THIRTY_MIN = 1/48;

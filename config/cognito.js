@@ -19,3 +19,7 @@ export const cognitoAuthData = () => ({
 export const COGNITO_ID_TOKEN_COOKIE_NAME = 'cognito-id-token';
 export const EXPIRE_IN_HALF_A_DAY = 0.5;
 export const EXPIRE_IN_THIRTY_MIN = 1/48;
+export const poolData = () => ({
+	UserPoolId: settings.USER_POOL_ID,
+	ClientId: settings.CLIENT_ID
+});

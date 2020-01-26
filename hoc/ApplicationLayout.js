@@ -3,6 +3,7 @@ import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
+  poolData
 } from '../config/cognito';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -10,6 +11,11 @@ import fetchFromCookie from '../util/fetchFromCookie';
 import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {
+  CognitoUserPool,
+  CognitoUserAttribute,
+  CognitoUser,
+} from 'amazon-cognito-identity-js';
 // import './tap_events';
 
 const Layout = (Page) => {
@@ -32,9 +38,25 @@ const Layout = (Page) => {
     }
 
     componentDidMount() {
-      const redirectUrl = window.location.href;
-      const authData = cognitoAuthData(redirectUrl);
+      const authData = cognitoAuthData();
       const authInst = new CognitoAuth(authData);
+      
+      // https://www.npmjs.com/package/amazon-cognito-identity-js to fgure out how to do the signup
+      debugger;
+      const userPool = new CognitoUserPool(poolData());
+      const currentUser = userPool.getCurrentUser();
+      // An example to see all this in action
+
+      // example of signUp
+      // userPool.signUp(null, null, null, null, (err,result) => {
+      //   if (err) {
+      //       alert(err.message || JSON.stringify(err));
+      //       return;
+      //   }
+      //   const cognitoUser = result.user;
+      //   console.log('user name is ' + cognitoUser.getUsername());
+      // });
+      //TODO Figure out facebook and others
 
       authInst.userhandler = {
         onSuccess: (result) => {
@@ -46,8 +68,7 @@ const Layout = (Page) => {
         },
       };
 
-      // TODO: enable this when the bug in SDK is fixed
-      // auth.useCodeGrantFlow();
+      authInst.useCodeGrantFlow();
       authInst.parseCognitoWebResponse(window.location.href);
 
       // check whether this user was already signed in
@@ -63,16 +84,18 @@ const Layout = (Page) => {
 
     render() {
       const muiTheme = getMuiThemeWithUA(this.props.userAgent);
-      return <div>
-        <MuiThemeProvider muiTheme={muiTheme}>
-          {
-            this.props.auth.signingIn ?
-              <div>loading...</div> :
-              <Page {...this.props} />
-          }
-        </MuiThemeProvider>
-      </div>;
-    }
+      return (
+        <div>
+          <MuiThemeProvider muiTheme={muiTheme}>
+            {
+              this.props.auth.signingIn ?
+                <div>loading...</div> :
+                <Page {...this.props} />
+            }
+          </MuiThemeProvider>
+        </div>
+      );
+    } 
   }
 
   return Wrapped;

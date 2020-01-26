@@ -7,7 +7,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import IndexForm from '../forms/indexForm';
-import PropTypes from 'prop-types';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -98,10 +97,5 @@ class Page extends React.Component {
 const mapStateToProps = (state) => ({
   auth: state.auth,
 });
-
-Page.propTypes = {
-  auth: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
-};
 
 export default ApplicationLayout(connect(mapStateToProps)(Page));

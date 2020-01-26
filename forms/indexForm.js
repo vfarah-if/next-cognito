@@ -1,11 +1,10 @@
 import * as React from 'react';
-import {Field, reduxForm, submit} from 'redux-form';
-import {RadioButton} from 'material-ui/RadioButton';
-import {DatePicker, RadioButtonGroup, TextField} from 'redux-form-material-ui';
-import {connect} from 'react-redux';
+import { Field, reduxForm, submit } from 'redux-form';
+import { RadioButton } from 'material-ui/RadioButton';
+import { DatePicker, RadioButtonGroup, TextField } from 'redux-form-material-ui';
+import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 
 const validate = (values) => {
   const errors = {};
@@ -43,7 +42,7 @@ const submitProcess = (values, dispatch, props) => {
   alert(JSON.stringify(values) + ` idToken: ${props.idToken.substr(0, 10)}...`);
 };
 
-const RemoteSubmitButton = (props) => {
+const RemoteSubmitButton = (props) =>  {
   const {dispatch, submitting, invalid} = props;
 
   return <Button
@@ -53,26 +52,15 @@ const RemoteSubmitButton = (props) => {
   >Submit</Button>;
 };
 
-RemoteSubmitButton.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  submitting: PropTypes.bool.isRequired,
-  invalid: PropTypes.bool.isRequired,
-};
-
 const SubmitButton = connect((state) => state)(RemoteSubmitButton);
-
+  
 const withError = ({meta, props}) => (
-  <div>
+  <div> 
     <span {...props} className='error'>Error : {meta.error}</span><br/>
     <span {...props} className='warn'>Warn: {meta.warning}</span>
   </div>
 );
-
-withError.propTypes = {
-  meta: PropTypes.object.isRequired,
-  props: PropTypes.object.isRequired,
-};
-
+  
 const birthdayWithError = ({input, meta, ...props}) => {
   return <div>
     <Field
@@ -81,35 +69,24 @@ const birthdayWithError = ({input, meta, ...props}) => {
       format={(value, name) => value || null}
       floatingLabelText="birthday"
       error="sss"
-    />
+    />  
     {withError({meta, props})}
   </div>;
 };
 
-birthdayWithError.propTypes = {
-  input: PropTypes.object,
-  meta: PropTypes.object,
-  props: PropTypes.object,
-};
-
+  
 const languageWithError = ({input, meta, ...props}) => {
   return <div>
     <Field name="language" component={RadioButtonGroup}>
-      <RadioButton value="cpp" label="C++"/>
-      <RadioButton value="scala" label="Scala"/>
+      <RadioButton value="cpp" label="C++"/> 
+      <RadioButton value="scala" label="Scala"/> 
       <RadioButton value="haskell" label="Haskell"/>
-    </Field>
+    </Field>  
     {withError({meta, props})}
   </div>;
 };
 
-languageWithError.propTypes = {
-  input: PropTypes.object,
-  meta: PropTypes.object,
-  props: PropTypes.object,
-};
-
-const SyncValidationForm = (props) => {
+const SyncValidationForm = (props) => { 
   const {pristine, reset, submitting, error, invalid} = props;
 
   return (
@@ -119,21 +96,21 @@ const SyncValidationForm = (props) => {
           name="username"
           type="text"
           component={TextField}
-          hintText="esplo"
+          hintText="esplo" 
           floatingLabelText="username"/>
       </div>
 
-      <div>
+      <div> 
         <Field name="birthday" component={birthdayWithError}/>
       </div>
 
-      <div>
+      <div> 
         <Field name="language" component={languageWithError}/>
       </div>
 
       {error && <strong>{error}</strong>}
 
-      <div>
+      <div> 
         <SubmitButton submitting={submitting} invalid={invalid}/>
         <Button
           variant="outlined"
@@ -144,14 +121,6 @@ const SyncValidationForm = (props) => {
       </div>
     </form>
   );
-};
-
-SyncValidationForm.propTypes = {
-  pristine: PropTypes.bool,
-  reset: PropTypes.func,
-  submitting: PropTypes.bool,
-  error: PropTypes.string,
-  invalid: PropTypes.bool,
 };
 
 const rf = reduxForm({

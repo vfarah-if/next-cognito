@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
-import {  
+import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
 } from '../config/cognito';
@@ -10,7 +10,6 @@ import fetchFromCookie from '../util/fetchFromCookie';
 import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import PropTypes from 'prop-types';
 // import './tap_events';
 
 const Layout = (Page) => {
@@ -75,14 +74,6 @@ const Layout = (Page) => {
       </div>;
     }
   }
-
-  Wrapped.propTypes = {
-    userAgent: PropTypes.string.isRequired,
-    auth: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    setSigningIn: PropTypes.func.isRequired,
-    setAuthInst: PropTypes.func.isRequired,
-  };
 
   return Wrapped;
 };

@@ -32,8 +32,35 @@ class Page extends React.Component {
     this.props.logout();
   };
 
-  signup = (values) => {
-    console.log(values);
+  createAttributes = (data) => {
+    const userAttributes = new Array();
+    for (const name in data) {
+      var value = data[name];
+      userAttributes.push({ Name: name, Value: value });
+    }
+    return userAttributes;
+  }
+
+  signup = (data) => {
+    console.log(data);
+    const { given_name, family_name, email, password } = data;
+    if (given_name && family_name && email && password) {
+      delete(data.password);
+      const attributes = this.createAttributes(data);
+      this.props.auth.userPool.signUp(email, password, attributes, attributes,
+        (err, result) => {
+          if (err) {
+            alert(err.message || JSON.stringify(err));
+            return;
+          }
+          alert('Succeeded to sign up user');
+          console.log(result);
+        });
+    } else {
+      alert('Data is missing');
+    }
+
+    //TODO Figure out facebook and others
   }
 
   render() {
@@ -77,9 +104,9 @@ class Page extends React.Component {
             <div>
               <Button variant="outlined" onClick={this.login}>Sign in</Button>
               <div>
-                <SignUpForm onSubmit={this.signup}/>
+                <SignUpForm onSubmit={this.signup} />
               </div>
-            </div>            
+            </div>
 
         }
 

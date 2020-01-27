@@ -9,16 +9,20 @@ class SignUpForm extends Component {
             <>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="firstName">First Name</label>
-                        <Field name="firstName" component="input" type="text" />
+                        <label htmlFor="given_name">Given Name</label>
+                        <Field name="given_name" component="input" type="text" />
                     </div>
                     <div>
-                        <label htmlFor="middleName">Middle Name</label>
-                        <Field name="middleName" component="input" type="text" />
+                        <label htmlFor="middle_name">Middle Name</label>
+                        <Field name="middle_name" component="input" type="text" />
                     </div>
                     <div>
-                        <label htmlFor="lastName">Last Name</label>
-                        <Field name="lastName" component="input" type="text" />
+                        <label htmlFor="family_name">Family Name</label>
+                        <Field name="family_name" component="input" type="text" />
+                    </div>
+                    <div>
+                        <label htmlFor="nickname">Nick Name</label>
+                        <Field name="nickname" component="input" type="text" />
                     </div>
                     <div>
                         <label htmlFor="email">Email</label>

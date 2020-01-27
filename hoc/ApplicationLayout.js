@@ -44,19 +44,7 @@ const Layout = (Page) => {
       // https://www.npmjs.com/package/amazon-cognito-identity-js to fgure out how to do the signup
       const userPool = new CognitoUserPool(poolData());
       const currentUser = userPool.getCurrentUser();
-      // An example to see all this in action
-
-      // example of signUp
-      // userPool.signUp(null, null, null, null, (err,result) => {
-      //   if (err) {
-      //       alert(err.message || JSON.stringify(err));
-      //       return;
-      //   }
-      //   const cognitoUser = result.user;
-      //   console.log('user name is ' + cognitoUser.getUsername());
-      // });
-      //TODO Figure out facebook and others
-
+      console.log(currentUser);
       authInst.userhandler = {
         onSuccess: (result) => {
           const token = result.idToken.jwtToken;

@@ -42,7 +42,6 @@ const Layout = (Page) => {
       const authInst = new CognitoAuth(authData);
       
       // https://www.npmjs.com/package/amazon-cognito-identity-js to fgure out how to do the signup
-      debugger;
       const userPool = new CognitoUserPool(poolData());
       const currentUser = userPool.getCurrentUser();
       // An example to see all this in action
@@ -80,6 +79,7 @@ const Layout = (Page) => {
       // sign-in check was done
       this.props.setSigningIn(false);
       this.props.setAuthInst(authInst);
+      this.props.setUserPool(userPool);
     }
 
     render() {

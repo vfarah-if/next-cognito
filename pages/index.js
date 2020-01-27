@@ -7,6 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import IndexForm from '../forms/indexForm';
+import SignUpForm from '../forms/signUpForm';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -31,6 +32,10 @@ class Page extends React.Component {
     this.props.logout();
   };
 
+  signup = (values) => {
+    console.log(values);
+  }
+
   render() {
     const { idToken } = this.props.auth;
 
@@ -39,7 +44,7 @@ class Page extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              Title
+              World Athletics Registration POC
             </Typography>
           </Toolbar>
         </AppBar>
@@ -71,7 +76,11 @@ class Page extends React.Component {
             :
             <div>
               <Button variant="outlined" onClick={this.login}>Sign in</Button>
-            </div>
+              <div>
+                <SignUpForm onSubmit={this.signup}/>
+              </div>
+            </div>            
+
         }
 
         <div>

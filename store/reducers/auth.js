@@ -5,12 +5,14 @@ import Cookie from 'js-cookie';
 
 const defaultState = {
   inst: null,
+  userPool: null,
   signingIn: true,
   idToken: null,
 };
 
 export const actions = createActions({
-  SET_AUTH_INST: (inst) => ({ inst }),
+  SET_AUTH_INST: (inst) => ({ inst }),  
+  SET_USER_POOL: (userPool) => ({ userPool }),  
   SET_SIGNING_IN: (signingIn) => ({ signingIn }),
   LOGIN: (idToken) => ({ idToken }),
   LOGOUT: () => { },
@@ -20,6 +22,9 @@ const reducer = handleActions({
   [actions.setAuthInst](state, { payload: { inst } }) {
     return { ...state, inst };
   },
+  [actions.setUserPool](state, { payload: { userPool } }) {
+    return { ...state, userPool };
+  },  
   [actions.setSigningIn](state, { payload: { signingIn } }) {
     return { ...state, signingIn };
   },

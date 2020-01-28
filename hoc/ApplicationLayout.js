@@ -13,8 +13,6 @@ import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
-// import './tap_events';
-
 const Layout = (Page) => {
   class Wrapped extends React.Component {
     static async getInitialProps(ctx) {

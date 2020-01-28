@@ -18,14 +18,12 @@ export const cognitoAuthData = () => ({
 });
 export const COGNITO_ID_TOKEN_COOKIE_NAME = 'cognito-id-token';
 export const EXPIRE_IN_HALF_A_DAY = 0.5;
-export const EXPIRE_IN_THIRTY_MIN = 1/48;
+export const EXPIRE_IN_THIRTY_MIN = 1 / 48;
 
-// In Production configure ...
-// accessKeyId
-// secretAccessKey 
-// sessionToken 
 export const identityServiceProviderData = () => ({
     region: settings.REGION,
+    accessKeyId: '<Yours>', // Should be a Cognito Admin
+    secretAccessKey: '<Yours>' // Should be a Cognito Admin
 });
 
 export const signUpParams = () => ({
@@ -36,8 +34,18 @@ export const signUpParams = () => ({
     ValidationData: [],
 });
 
-export const addUserToGroupParams = () => ({    
+export const addUserToGroupParams = () => ({
     UserPoolId: settings.USER_POOL_ID,
     Username: undefined,
     GroupName: undefined
+});
+
+export const createUserParams = () => ({
+    UserPoolId: settings.USER_POOL_ID,
+    Username: undefined,
+    UserAttributes: undefined,
+    TemporaryPassword: undefined,
+    ForceAliasCreation: false,
+    MessageAction: undefined,
+    DesiredDeliveryMediums: ['EMAIL']
 });

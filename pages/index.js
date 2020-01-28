@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import IndexForm from '../forms/indexForm';
 import SignUpForm from '../forms/signUpForm';
-import { signUpParams, addUserToGroupParams } from '../config/cognito';
+import { signUpParams, addUserToGroupParams, createUserParams } from '../config/cognito';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -48,7 +48,8 @@ class Page extends React.Component {
     if (given_name && family_name && email && password) {
       delete (data.password);
       const attributes = this.createAttributes(data);
-      this.signUpWithIdentityServiceProvider(email, password, attributes);
+      this.signUpUser(email, password, attributes);
+      // this.createUser(email, password, attributes);
     } else {
       alert('Data is missing');
     }
@@ -56,12 +57,36 @@ class Page extends React.Component {
     //TODO Figure out facebook and others
   }
 
-  signUpWithIdentityServiceProvider(email, password, attributes) {
+  createUser(email, password, attributes) {
+    const params = createUserParams();
+    params.Username = email;
+    params.UserAttributes = attributes;
+    // params.TemporaryPassword = password;    
+    this.props.auth.identityServiceProvider.adminCreateUser(params,
+      (err, result) => {
+        if (err) {
+          alert(err.message || JSON.stringify(err));
+          return;
+        }
+        alert('Succeeded to sign user and email shuld be sent with temp password');
+        this.addUserToGroup(email, 'waw');
+        this.addUserToGroup(email, 'fan');
+        // Resend message
+        //params.MessageAction = 'RESEND';
+        // this.props.auth.identityServiceProvider.adminCreateUser(params, (err, result) => {
+        //   console.log(result);
+        // });
+        console.log(result);
+      });
+  }
+
+  signUpUser(email, password, attributes) {
     const params = signUpParams();
     params.Username = email;
     params.Password = password;
     params.UserAttributes = attributes;
     params.ValidationData = attributes;
+    // Relies on settings for allowing users to sign themselves up being assigned
     this.props.auth.identityServiceProvider.signUp(params,
       (err, result) => {
         if (err) {
@@ -72,9 +97,6 @@ class Page extends React.Component {
         this.addUserToGroup(email, 'waw');
         this.addUserToGroup(email, 'fan');
         console.log(result);
-        // Show in message that the user has been sent an email and to check junk box
-        // TODO: Add user to waw user group, fan and CIS as a test
-        //
       });
   }
 
@@ -84,10 +106,10 @@ class Page extends React.Component {
     params.GroupName = groupName;
     this.props.auth.identityServiceProvider.adminAddUserToGroup(params, (error, data) => {
       if (error) {
-        alert(error);
+        alert(err.message || JSON.stringify(err));
       }
       if (data) {
-        alert(data);
+        alert(`Successfully added '${username}' to '${groupName}'`);
       }
     });
   }

@@ -3,7 +3,6 @@ import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
-  poolData,
   identityServiceProviderData
 } from '../config/cognito';
 import { connect } from 'react-redux';
@@ -12,9 +11,6 @@ import fetchFromCookie from '../util/fetchFromCookie';
 import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {
-  CognitoUserPool
-} from 'amazon-cognito-identity-js';
 import CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 // import './tap_events';
@@ -42,10 +38,6 @@ const Layout = (Page) => {
       const authData = cognitoAuthData();
       const authInst = new CognitoAuth(authData);
 
-      const userPool = new CognitoUserPool(poolData());
-      const currentUser = userPool.getCurrentUser();
-      console.log(currentUser);
-
       const identityServiceProvider = new CognitoIdentityServiceProvider(identityServiceProviderData());
 
       authInst.userhandler = {
@@ -54,10 +46,12 @@ const Layout = (Page) => {
           this.props.login(token);
         },
         onFailure: function (err) {
-          alert('Error!');
+          const alreadyLoggedIn = 'invalid_grant';
+          if (error !== alreadyLoggedIn) {
+            alert(err);
+          }
         },
       };
-
       authInst.useCodeGrantFlow();
       authInst.parseCognitoWebResponse(window.location.href);
 
@@ -70,7 +64,6 @@ const Layout = (Page) => {
       // sign-in check was done
       this.props.setSigningIn(false);
       this.props.setAuthInst(authInst);
-      this.props.setUserPool(userPool);
       this.props.setIdentityServiceProvider(identityServiceProvider);
     }
 

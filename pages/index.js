@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import IndexForm from '../forms/indexForm';
 import SignUpForm from '../forms/signUpForm';
-import { signUpParams } from '../config/cognito';
+import { signUpParams, addUserToGroupParams } from '../config/cognito';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -48,25 +48,12 @@ class Page extends React.Component {
     if (given_name && family_name && email && password) {
       delete (data.password);
       const attributes = this.createAttributes(data);
-      //this.signUpWithUserPool(email, password, attributes);
       this.signUpWithIdentityServiceProvider(email, password, attributes);
     } else {
       alert('Data is missing');
     }
 
     //TODO Figure out facebook and others
-  }
-
-  signUpWithUserPool(email, password, attributes) {
-    this.props.auth.userPool.signUp(email, password, attributes, attributes,
-      (err, result) => {
-        if (err) {
-          alert(err.message || JSON.stringify(err));
-          return;
-        }
-        alert('Succeeded to sign up user');
-        console.log(result);
-      });
   }
 
   signUpWithIdentityServiceProvider(email, password, attributes) {
@@ -82,11 +69,27 @@ class Page extends React.Component {
           return;
         }
         alert('Succeeded to sign up user');
+        this.addUserToGroup(email, 'waw');
+        this.addUserToGroup(email, 'fan');
         console.log(result);
         // Show in message that the user has been sent an email and to check junk box
         // TODO: Add user to waw user group, fan and CIS as a test
         //
       });
+  }
+
+  addUserToGroup(username, groupName) {
+    const params = addUserToGroupParams();
+    params.Username = username;
+    params.GroupName = groupName;
+    this.props.auth.identityServiceProvider.adminAddUserToGroup(params, (error, data) => {
+      if (error) {
+        alert(error);
+      }
+      if (data) {
+        alert(data);
+      }
+    });
   }
 
   render() {

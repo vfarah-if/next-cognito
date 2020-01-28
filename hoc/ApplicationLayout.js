@@ -3,7 +3,8 @@ import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
-  poolData
+  poolData,
+  identityServiceProviderData
 } from '../config/cognito';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,10 +13,10 @@ import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {
-  CognitoUserPool,
-  CognitoUserAttribute,
-  CognitoUser,
+  CognitoUserPool
 } from 'amazon-cognito-identity-js';
+import CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
+
 // import './tap_events';
 
 const Layout = (Page) => {
@@ -40,11 +41,13 @@ const Layout = (Page) => {
     componentDidMount() {
       const authData = cognitoAuthData();
       const authInst = new CognitoAuth(authData);
-      
-      // https://www.npmjs.com/package/amazon-cognito-identity-js to fgure out how to do the signup
+
       const userPool = new CognitoUserPool(poolData());
       const currentUser = userPool.getCurrentUser();
       console.log(currentUser);
+
+      const identityServiceProvider = new CognitoIdentityServiceProvider(identityServiceProviderData());
+
       authInst.userhandler = {
         onSuccess: (result) => {
           const token = result.idToken.jwtToken;
@@ -68,6 +71,7 @@ const Layout = (Page) => {
       this.props.setSigningIn(false);
       this.props.setAuthInst(authInst);
       this.props.setUserPool(userPool);
+      this.props.setIdentityServiceProvider(identityServiceProvider);
     }
 
     render() {
@@ -83,7 +87,7 @@ const Layout = (Page) => {
           </MuiThemeProvider>
         </div>
       );
-    } 
+    }
   }
 
   return Wrapped;

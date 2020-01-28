@@ -23,3 +23,19 @@ export const poolData = () => ({
 	UserPoolId: settings.USER_POOL_ID,
 	ClientId: settings.CLIENT_ID
 });
+
+// In Production configure ...
+// accessKeyId
+// secretAccessKey 
+// sessionToken 
+export const identityServiceProviderData = () => ({
+    region: settings.REGION,
+});
+
+export const signUpParams = () => ({
+    ClientId: settings.CLIENT_ID,
+    Password: undefined,
+    Username: undefined,
+    UserAttributes: [],
+    ValidationData: [],
+});

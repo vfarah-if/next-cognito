@@ -8,11 +8,13 @@ const defaultState = {
   userPool: null,
   signingIn: true,
   idToken: null,
+  identityServiceProvider: null,
 };
 
 export const actions = createActions({
   SET_AUTH_INST: (inst) => ({ inst }),  
-  SET_USER_POOL: (userPool) => ({ userPool }),  
+  SET_USER_POOL: (userPool) => ({ userPool }), 
+  SET_IDENTITY_SERVICE_PROVIDER : (identityServiceProvider) => ({ identityServiceProvider }), 
   SET_SIGNING_IN: (signingIn) => ({ signingIn }),
   LOGIN: (idToken) => ({ idToken }),
   LOGOUT: () => { },
@@ -24,6 +26,9 @@ const reducer = handleActions({
   },
   [actions.setUserPool](state, { payload: { userPool } }) {
     return { ...state, userPool };
+  },  
+  [actions.setIdentityServiceProvider](state, { payload: { identityServiceProvider } }) {
+    return { ...state, identityServiceProvider };
   },  
   [actions.setSigningIn](state, { payload: { signingIn } }) {
     return { ...state, signingIn };

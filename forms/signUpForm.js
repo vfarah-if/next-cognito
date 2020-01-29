@@ -32,7 +32,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: 400,
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
@@ -53,8 +53,8 @@ class SignUpForm extends Component {
     };
 
     validate = () => {
-        const { given_name, family_name, email, password } = this.state;
-        if (given_name && family_name && email && password) {
+        const { given_name, family_name, email } = this.state;
+        if (given_name && family_name && email) {
             return true;
         }
         return false;
@@ -409,7 +409,7 @@ class SignUpForm extends Component {
                                             labelPlacement="top"
                                         />
 
-                                        <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
+                                        <TextField label="Password (Enable for signup flow)" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')} disabled/>
                                     </FormGroup>                                      
                                 </form>
                                 <FormControl component="fieldset" className={classes.formControl}>

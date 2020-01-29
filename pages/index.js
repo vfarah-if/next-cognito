@@ -45,30 +45,27 @@ class Page extends React.Component {
   signup = (data) => {
     console.log(data);
     const { given_name, family_name, email, password } = data;
-    if (given_name && family_name && email && password) {
+    if (given_name && family_name && email) {
       delete (data.password);
       const attributes = this.createAttributes(data);
       // this.signUpUser(email, password, attributes);
-      this.createUser(email, password, attributes);
+      this.createUser(email, attributes);
     } else {
       alert('Data is missing');
     }
-
-    //TODO Figure out facebook and others
   }
 
-  createUser(email, password, attributes) {
+  createUser(email, attributes) {
     const params = createUserParams();
     params.Username = email;
-    params.UserAttributes = attributes;
-    // params.TemporaryPassword = password;    
+    params.UserAttributes = attributes;    
     this.props.auth.identityServiceProvider.adminCreateUser(params,
       (err, result) => {
         if (err) {
           alert(err.message || JSON.stringify(err));
           return;
         }
-        alert('Succeeded to sign user and email shuld be sent with temp password');
+        alert('Succeeded to sign user and email should be sent with temp password');
         this.addUserToGroup(email, 'waw');
         this.addUserToGroup(email, 'fan');
         console.log(result);

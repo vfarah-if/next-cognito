@@ -49,7 +49,8 @@ class SignUpForm extends Component {
         gender: undefined,
         locale: undefined,
         zoneinfo: undefined,
-        password: undefined
+        password: undefined,
+        'custom:iaaf-category': undefined
     };
 
     validate = () => {
@@ -73,6 +74,7 @@ class SignUpForm extends Component {
         const { classes } = this.props;
         
         const handleChange = name => event => {
+            debugger;
             this.setState({ [name]: event.target.value });
         };
 
@@ -109,6 +111,26 @@ class SignUpForm extends Component {
                                                 </Select>
                                             }
                                             label="Gender"
+                                            labelPlacement="top"
+                                        />
+                                        <FormControlLabel
+                                            className={classes.formControl}
+                                            control={<Select
+                                                    native
+                                                    value={this.state['custom:iaaf-category']}
+                                                    onChange={handleChange('custom:iaaf-category')}
+                                                    className={classes.textField}                                                                                    
+                                                >
+                                                    <option value="">None</option>
+                                                    <option value="fan">Fan</option>
+                                                    <option value="broadcaster">Broadcaster</option>
+                                                    <option value="delegate">Delegate</option>
+                                                    <option value="event-presentation">Event Presenter</option>
+                                                    <option value="media">Media</option>
+                                                    <option value="other">Other</option>
+                                                </Select>
+                                            }
+                                            label="IAAF Custom Category"
                                             labelPlacement="top"
                                         />
                                         <FormControlLabel

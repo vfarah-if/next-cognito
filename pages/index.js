@@ -114,7 +114,7 @@ class Page extends React.Component {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="title" color="inherit">
-              World Athletics Registration POC
+              World Athletics Registration Flow POC
             </Typography>
           </Toolbar>
         </AppBar>

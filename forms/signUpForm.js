@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
 import classNames from 'classnames';
 import {
-    FormControl, InputLabel, Input, FormHelperText, TextField, Button, Typography, Box, Grid, Paper, FormLabel,
-    RadioGroup, FormControlLabel, Radio, FormGroup, OutlinedInput, FilledInput
+    FormControl, TextField, Button, Typography, Grid, Paper, FormLabel, FormGroup
 } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
@@ -28,84 +26,75 @@ const styles = theme => ({
     leftIcon: {
         marginRight: theme.spacing.unit,
     },
-    rightIcon: {
-        marginLeft: theme.spacing.unit,
-    },
     iconSmall: {
         fontSize: 20,
     },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+      },
 });
 
-class SignUpForm extends Component {
+class SignUpForm extends Component {  
     state = {
-        spacing: '16'
+        given_name: undefined,
+        middle_name: undefined,
+        family_name: undefined,
+        nickname: undefined,
+        email: undefined,
+        password: undefined
     };
 
-    handleChange = event => {
-        this.setState({ name: event.target.value });
-      };
+    validate = () => {
+        const { given_name, family_name, email, password } = this.state;
+        if (given_name && family_name && email && password) {
+            return true;
+        }
+        return false;
+    }
+
+    handleSubmit = event => {
+        event.preventDefault(); 
+        if( this.validate()){
+            const { onSubmit } = this.props;
+            const data = JSON.parse(JSON.stringify(this.state));        
+            onSubmit(data);            
+        }
+    };
 
     render() {
-        const { handleSubmit, classes, } = this.props;
+        const { classes } = this.props;
+        
+        const handleChange = name => event => {
+            console.log(name, event.target.value);
+            this.setState({ [name]: event.target.value });
+        };
+
         return (             
             <Grid container className={classes.root} spacing={16}>
                 <Grid item xs={12}>
                     <Paper className={classes.control}>
                         <Grid container>
                             <Grid item>
-                                <form onSubmit={handleSubmit}>
+                                <form className={classes.container} >
                                     <div className={classes.container}>
-                                        <FormLabel component="legend">Register User</FormLabel>
-                                        <FormGroup>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Given Name"
-                                                    labelPlacement="start"
-                                                    control={<Field name="given_name" component="input" type="text" />}
-                                                />
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Middle Name"
-                                                    labelPlacement="start"
-                                                    control={<Field name="middle_name" component="input" type="text" />}
-                                                />
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Family Name"
-                                                    labelPlacement="start"
-                                                    control={<Field name="family_name" component="input" type="text" />}
-                                                />
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Nick Name"
-                                                    labelPlacement="start"
-                                                    control={<Field name="nickname" component="input" type="text" />}
-                                                />
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Email"
-                                                    labelPlacement="start"
-                                                    control={<Field name="email" component="input" type="email" />}
-                                                />
-                                            </FormControl>
-                                            <FormControl component="fieldset" className={classes.formControl}>
-                                                <FormControlLabel
-                                                    label="Password"
-                                                    labelPlacement="start"
-                                                    control={<Field name="password" component="input" type="password" />}
-                                                />
-                                            </FormControl>                                                
-                                        </FormGroup>
-                                    </div>                
-                                    <FormControl component="fieldset" className={classes.formControl}>
-                                        <Button variant="contained" variant="contained" className={classes.button} type="submit">
-                                            <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />Save</Button>
-                                    </FormControl>                                                                                                                    
+                                         <Typography variant="headline" gutterBottom>Register User</Typography>
+                                        <FormGroup>                                            
+                                            <TextField label="Given Name" className={classes.textField} margin="normal" required onChange={handleChange('given_name')}/>
+                                            <TextField label="Middle Name" className={classes.textField} margin="normal" onChange={handleChange('middle_name')}/>
+                                            <TextField label="Family Name" className={classes.textField} margin="normal" required onChange={handleChange('family_name')}/>
+                                            <TextField label="Nick Name" className={classes.textField} margin="normal" onChange={handleChange('nickname')}/>
+                                            <TextField label="Email" className={classes.textField} margin="normal" type="email" required onChange={handleChange('email')}/>                                            
+                                            <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
+                                       </FormGroup>                                      
+                                    </div>                                             
                                 </form>
+                                <FormControl component="fieldset" className={classes.formControl}>
+                                    <Button variant="contained" variant="contained" className={classes.button} onClick={this.handleSubmit} disabled={!this.validate()}>
+                                        <SaveIcon className={classNames(classes.leftIcon, classes.iconSmall)} />Save
+                                    </Button>
+                                </FormControl>                                                                                                                                                                                                   
                             </Grid>
                         </Grid>
                     </Paper>
@@ -114,10 +103,5 @@ class SignUpForm extends Component {
         );
     }
 }
-
-
-SignUpForm = reduxForm({
-    form: 'sig nup'
-})(SignUpForm);
 
 export default withStyles(styles)(SignUpForm);    

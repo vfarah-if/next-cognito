@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import {
-    FormControl, TextField, Button, Typography, Grid, Paper, FormGroup
+    FormControl, TextField, Button, Typography, Grid, Paper, FormGroup, FormControlLabel, Select
 } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
@@ -33,7 +33,10 @@ const styles = theme => ({
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 200,
-      },
+    },
+    selectEmpty: {
+        marginTop: theme.spacing.unit * 2,
+    },
 });
 
 class SignUpForm extends Component {  
@@ -43,6 +46,7 @@ class SignUpForm extends Component {
         family_name: undefined,
         nickname: undefined,
         email: undefined,
+        gender: undefined,
         password: undefined
     };
 
@@ -83,7 +87,31 @@ class SignUpForm extends Component {
                                         <TextField label="Middle Name" className={classes.textField} margin="normal" onChange={handleChange('middle_name')}/>
                                         <TextField label="Family Name" className={classes.textField} margin="normal" required onChange={handleChange('family_name')}/>
                                         <TextField label="Nick Name" className={classes.textField} margin="normal" onChange={handleChange('nickname')}/>
-                                        <TextField label="Email" className={classes.textField} margin="normal" type="email" required onChange={handleChange('email')}/>                                            
+                                        <TextField label="Email" className={classes.textField} margin="normal" type="email" required onChange={handleChange('email')}/>
+                                        <FormControlLabel
+                                            className={classes.formControl}
+                                            control={<Select
+                                                    native
+                                                    value={this.state.gender}
+                                                    onChange={handleChange('gender')}
+                                                    className={classes.textField}                                                
+                                                    inputProps={{
+                                                        name: 'gender',
+                                                    }}
+                                                >
+                                                    <option value="">None</option>
+                                                    <option value="Female">Female</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Intersex">Intersex</option>
+                                                    <option value="Androgyne">Androgyne</option>
+                                                    <option value="Queer">Queer</option>
+                                                    <option value="Questioning">Questioning</option>
+                                                    <option value="Not applicable">Not applicable</option>
+                                                </Select>
+                                            }
+                                            label="Gender"
+                                            labelPlacement="top"
+                                        />
                                         <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
                                     </FormGroup>                                      
                                 </form>

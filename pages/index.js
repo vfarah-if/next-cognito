@@ -153,7 +153,6 @@ class Page extends React.Component {
                 <SignUpForm onSubmit={this.signup} />
               </div>
             </div>
-
         }
 
         <div>

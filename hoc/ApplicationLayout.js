@@ -14,7 +14,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
 
 const Layout = (Page) => {
-  class Wrapped extends React.Component {
+  // getInitialProps is the most important function for storing properties server side
+  class WithAuthentication extends React.Component {
     static async getInitialProps(ctx) {
       const { req } = ctx;
       const childProps = Page.getInitialProps ? Page.getInitialProps(ctx) : {};
@@ -33,13 +34,15 @@ const Layout = (Page) => {
     }
 
     componentDidMount() {
+      // Responsible for creating the cognito session
       const authData = cognitoAuthData();
       const authInst = new CognitoAuth(authData);
-
+      // Responsible for creating user groups and signing / creating users depending on which flow you are interested in
       const identityServiceProvider = new CognitoIdentityServiceProvider(identityServiceProviderData());
 
       authInst.userhandler = {
         onSuccess: (result) => {
+          // Store token in redux to be shared
           const token = result.idToken.jwtToken;
           this.props.login(token);
         },
@@ -81,7 +84,7 @@ const Layout = (Page) => {
     }
   }
 
-  return Wrapped;
+  return WithAuthentication;
 };
 
 const mapStateToProps = (state) => ({

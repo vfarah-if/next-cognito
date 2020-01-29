@@ -48,8 +48,8 @@ class Page extends React.Component {
     if (given_name && family_name && email && password) {
       delete (data.password);
       const attributes = this.createAttributes(data);
-      this.signUpUser(email, password, attributes);
-      // this.createUser(email, password, attributes);
+      // this.signUpUser(email, password, attributes);
+      this.createUser(email, password, attributes);
     } else {
       alert('Data is missing');
     }
@@ -71,11 +71,6 @@ class Page extends React.Component {
         alert('Succeeded to sign user and email shuld be sent with temp password');
         this.addUserToGroup(email, 'waw');
         this.addUserToGroup(email, 'fan');
-        // Resend message
-        //params.MessageAction = 'RESEND';
-        // this.props.auth.identityServiceProvider.adminCreateUser(params, (err, result) => {
-        //   console.log(result);
-        // });
         console.log(result);
       });
   }

@@ -67,7 +67,6 @@ class SignUpForm extends Component {
         const { classes } = this.props;
         
         const handleChange = name => event => {
-            console.log(name, event.target.value);
             this.setState({ [name]: event.target.value });
         };
 

@@ -43,6 +43,7 @@ class Page extends React.Component {
   }
 
   signup = (data) => {
+    debugger;
     console.log(data);
     const { given_name, family_name, email, password } = data;
     if (given_name && family_name && email && password) {

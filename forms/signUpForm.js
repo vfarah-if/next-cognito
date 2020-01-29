@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import {
-    FormControl, TextField, Button, Typography, Grid, Paper, FormLabel, FormGroup
+    FormControl, TextField, Button, Typography, Grid, Paper, FormGroup
 } from '@material-ui/core';
 import SaveIcon from '@material-ui/icons/Save';
 import { withStyles } from '@material-ui/core/styles';
@@ -77,17 +77,15 @@ class SignUpForm extends Component {
                         <Grid container>
                             <Grid item>
                                 <form className={classes.container} >
-                                    <div className={classes.container}>
-                                         <Typography variant="headline" gutterBottom>Register User</Typography>
-                                        <FormGroup>                                            
-                                            <TextField label="Given Name" className={classes.textField} margin="normal" required onChange={handleChange('given_name')}/>
-                                            <TextField label="Middle Name" className={classes.textField} margin="normal" onChange={handleChange('middle_name')}/>
-                                            <TextField label="Family Name" className={classes.textField} margin="normal" required onChange={handleChange('family_name')}/>
-                                            <TextField label="Nick Name" className={classes.textField} margin="normal" onChange={handleChange('nickname')}/>
-                                            <TextField label="Email" className={classes.textField} margin="normal" type="email" required onChange={handleChange('email')}/>                                            
-                                            <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
-                                       </FormGroup>                                      
-                                    </div>                                             
+                                    <Typography variant="headline" gutterBottom>Register User</Typography>
+                                    <FormGroup>                                            
+                                        <TextField label="Given Name" className={classes.textField} margin="normal" required onChange={handleChange('given_name')}/>
+                                        <TextField label="Middle Name" className={classes.textField} margin="normal" onChange={handleChange('middle_name')}/>
+                                        <TextField label="Family Name" className={classes.textField} margin="normal" required onChange={handleChange('family_name')}/>
+                                        <TextField label="Nick Name" className={classes.textField} margin="normal" onChange={handleChange('nickname')}/>
+                                        <TextField label="Email" className={classes.textField} margin="normal" type="email" required onChange={handleChange('email')}/>                                            
+                                        <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
+                                    </FormGroup>                                      
                                 </form>
                                 <FormControl component="fieldset" className={classes.formControl}>
                                     <Button variant="contained" variant="contained" className={classes.button} onClick={this.handleSubmit} disabled={!this.validate()}>

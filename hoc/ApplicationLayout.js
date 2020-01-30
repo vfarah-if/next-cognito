@@ -3,7 +3,7 @@ import { CognitoAuth } from 'amazon-cognito-auth-js/dist/amazon-cognito-auth';
 import {
   COGNITO_ID_TOKEN_COOKIE_NAME,
   cognitoAuthData,
-  identityServiceProviderData
+  serviceData
 } from '../config/cognito';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -12,6 +12,7 @@ import { actions as authActions } from '../store/reducers/auth';
 import getMuiThemeWithUA from '../util/getMuiThemeWithUA';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import CognitoIdentityServiceProvider from 'aws-sdk/clients/cognitoidentityserviceprovider';
+import SES from 'aws-sdk/clients/ses';
 
 const Layout = (Page) => {
   // getInitialProps is the most important function for storing properties server side
@@ -38,7 +39,9 @@ const Layout = (Page) => {
       const authData = cognitoAuthData();
       const authInst = new CognitoAuth(authData);
       // Responsible for creating user groups and signing / creating users depending on which flow you are interested in
-      const identityServiceProvider = new CognitoIdentityServiceProvider(identityServiceProviderData());
+      const identityServiceProvider = new CognitoIdentityServiceProvider(serviceData());
+      // sms service
+      const emailServiceProvider = new SES(serviceData());
 
       authInst.userhandler = {
         onSuccess: (result) => {
@@ -66,6 +69,7 @@ const Layout = (Page) => {
       this.props.setSigningIn(false);
       this.props.setAuthInst(authInst);
       this.props.setIdentityServiceProvider(identityServiceProvider);
+      this.props.setEmailServiceProvider(emailServiceProvider);
     }
 
     render() {

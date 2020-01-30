@@ -8,11 +8,13 @@ const defaultState = {
   signingIn: true,
   idToken: null,
   identityServiceProvider: null,
+  emailServiceProvider: null,
 };
 
 export const actions = createActions({
   SET_AUTH_INST: (inst) => ({ inst }),  
   SET_IDENTITY_SERVICE_PROVIDER : (identityServiceProvider) => ({ identityServiceProvider }), 
+  SET_EMAIL_SERVICE_PROVIDER: (emailServiceProvider) => ({ emailServiceProvider }),
   SET_SIGNING_IN: (signingIn) => ({ signingIn }),
   LOGIN: (idToken) => ({ idToken }),
   LOGOUT: () => { },
@@ -25,6 +27,9 @@ const reducer = handleActions({
   [actions.setIdentityServiceProvider](state, { payload: { identityServiceProvider } }) {
     return { ...state, identityServiceProvider };
   },  
+  [actions.setEmailServiceProvider](state, { payload: { emailServiceProvider } }) {
+    return { ...state, emailServiceProvider };
+  },
   [actions.setSigningIn](state, { payload: { signingIn } }) {
     return { ...state, signingIn };
   },

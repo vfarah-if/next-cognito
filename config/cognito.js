@@ -20,7 +20,7 @@ export const COGNITO_ID_TOKEN_COOKIE_NAME = 'cognito-id-token';
 export const EXPIRE_IN_HALF_A_DAY = 0.5;
 export const EXPIRE_IN_THIRTY_MIN = 1 / 48;
 
-export const identityServiceProviderData = () => ({
+export const serviceData = () => ({
     region: settings.REGION,
     accessKeyId: '<Yours>', // Should be a Cognito Admin
     secretAccessKey: '<Yours>' // Should be a Cognito Admin
@@ -70,3 +70,33 @@ export const adminRespondToAuthChallengeParams = () => ({
     },
     Session: undefined
 });
+
+export const emailSendParams = () => ({
+    Destination: {
+        BccAddresses: [],
+        CcAddresses: [],
+        ToAddresses: []
+    },
+    Message: {
+        Body: {
+            Html: {
+                Charset: "UTF-8",
+                Data: undefined,
+            },
+            Text: {
+                Charset: "UTF-8",
+                Data: undefined
+            }
+        },
+        Subject: {
+            Charset: "UTF-8",
+            Data: undefined
+        }
+    },
+    ReplyToAddresses: [], 
+    ReturnPath: '',
+    ReturnPathArn: '',
+    Source: '<YOURSENDER>', // DO NOT CHECKIN
+    SourceArn: '<YOURS>' // DO NOT CHECKIN
+}
+);

@@ -13,7 +13,9 @@ import {
   addUserToGroupParams, 
   createUserParams, 
   adminInitiateAuthParams,
-  adminRespondToAuthChallengeParams } from '../config/cognito';
+  adminRespondToAuthChallengeParams,
+  emailSendParams
+} from '../config/cognito';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -101,7 +103,7 @@ class Page extends React.Component {
           }
           console.log(result);
           this.updateEmailNotVerified(email);
-          this.sendEmailToVerifyAccount(email, password);
+          this.sendEmailToVerifyAccount(email);
           this.login();
         });
       }
@@ -112,10 +114,21 @@ class Page extends React.Component {
     // TODO: make sure email still needs to be verified to make sure that there is no security issue
   }
 
-  sendEmailToVerifyAccount(email, password) {
-    // TODO: With SES
+  sendEmailToVerifyAccount(email) {
     // https://aws.amazon.com/blogs/mobile/implementing-passwordless-email-authentication-with-amazon-cognito/
-    // 
+    const params = emailSendParams();
+    params.Destination.ToAddresses.push(email);    
+    params.Message.Body.Html.Data = `This message body contains HTML formatting. It can, for example, contain links like this one: <a class="ulink" href="http://docs.aws.amazon.com/ses/latest/DeveloperGuide" target="_blank">Amazon SES Developer Guide</a>.`;
+    params.Message.Body.Text.Data = `This is the message body in text format.`;
+    params.Message.Subject.Data = `Link to verify you are who you say you are ...`;
+    this.props.auth.emailServiceProvider.sendEmail(params, (err, data) => {
+      debugger;
+      if (err) {
+        console.log(err, err.stack); 
+        return ;
+      } 
+      console.log(data);           
+    });
   }
 
   signUpUser(email, password, attributes) {

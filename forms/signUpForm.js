@@ -32,7 +32,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: 400,
     },
     selectEmpty: {
         marginTop: theme.spacing.unit * 2,
@@ -49,12 +49,13 @@ class SignUpForm extends Component {
         gender: undefined,
         locale: undefined,
         zoneinfo: undefined,
-        password: undefined
+        password: undefined,
+        'custom:iaaf-category': undefined
     };
 
     validate = () => {
-        const { given_name, family_name, email, password } = this.state;
-        if (given_name && family_name && email && password) {
+        const { given_name, family_name, email } = this.state;
+        if (given_name && family_name && email) {
             return true;
         }
         return false;
@@ -73,6 +74,7 @@ class SignUpForm extends Component {
         const { classes } = this.props;
         
         const handleChange = name => event => {
+            debugger;
             this.setState({ [name]: event.target.value });
         };
 
@@ -109,6 +111,26 @@ class SignUpForm extends Component {
                                                 </Select>
                                             }
                                             label="Gender"
+                                            labelPlacement="top"
+                                        />
+                                        <FormControlLabel
+                                            className={classes.formControl}
+                                            control={<Select
+                                                    native
+                                                    value={this.state['custom:iaaf-category']}
+                                                    onChange={handleChange('custom:iaaf-category')}
+                                                    className={classes.textField}                                                                                    
+                                                >
+                                                    <option value="">None</option>
+                                                    <option value="fan">Fan</option>
+                                                    <option value="broadcaster">Broadcaster</option>
+                                                    <option value="delegate">Delegate</option>
+                                                    <option value="event-presentation">Event Presenter</option>
+                                                    <option value="media">Media</option>
+                                                    <option value="other">Other</option>
+                                                </Select>
+                                            }
+                                            label="IAAF Custom Category"
                                             labelPlacement="top"
                                         />
                                         <FormControlLabel
@@ -409,7 +431,7 @@ class SignUpForm extends Component {
                                             labelPlacement="top"
                                         />
 
-                                        <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
+                                        <TextField label="Password (Enable for signup flow)" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')} disabled/>
                                     </FormGroup>                                      
                                 </form>
                                 <FormControl component="fieldset" className={classes.formControl}>

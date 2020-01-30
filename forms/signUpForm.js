@@ -54,8 +54,8 @@ class SignUpForm extends Component {
     };
 
     validate = () => {
-        const { given_name, family_name, email } = this.state;
-        if (given_name && family_name && email) {
+        const { given_name, family_name, email, password } = this.state;
+        if (given_name && family_name && email && password) {
             return true;
         }
         return false;
@@ -74,7 +74,6 @@ class SignUpForm extends Component {
         const { classes } = this.props;
         
         const handleChange = name => event => {
-            debugger;
             this.setState({ [name]: event.target.value });
         };
 
@@ -431,7 +430,7 @@ class SignUpForm extends Component {
                                             labelPlacement="top"
                                         />
 
-                                        <TextField label="Password (Enable for signup flow)" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')} disabled/>
+                                        <TextField label="Password" className={classes.textField} margin="normal" required type="password" onChange={handleChange('password')}/>
                                     </FormGroup>                                      
                                 </form>
                                 <FormControl component="fieldset" className={classes.formControl}>

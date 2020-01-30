@@ -8,7 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import IndexForm from '../forms/indexForm';
 import SignUpForm from '../forms/signUpForm';
-import { signUpParams, addUserToGroupParams, createUserParams } from '../config/cognito';
+import { 
+  signUpParams, 
+  addUserToGroupParams, 
+  createUserParams, 
+  adminInitiateAuthParams,
+  adminRespondToAuthChallengeParams } from '../config/cognito';
 
 class Page extends React.Component {
   static async getInitialProps({ req }) {
@@ -49,16 +54,17 @@ class Page extends React.Component {
       delete (data.password);
       const attributes = this.createAttributes(data);
       // this.signUpUser(email, password, attributes);
-      this.createUser(email, attributes);
+      this.createUser(email, password, attributes);
     } else {
       alert('Data is missing');
     }
   }
 
-  createUser(email, attributes) {
+  createUser(email, password, attributes) {
     const params = createUserParams();
     params.Username = email;
-    params.UserAttributes = attributes;    
+    params.UserAttributes = attributes;
+    params.TemporaryPassword = password;
     this.props.auth.identityServiceProvider.adminCreateUser(params,
       (err, result) => {
         if (err) {
@@ -68,8 +74,48 @@ class Page extends React.Component {
         alert('Succeeded to sign user and email should be sent with temp password');
         this.addUserToGroup(email, 'waw');
         this.addUserToGroup(email, 'fan');
+        this.initiateAuthenticationWithAdminflow(email, password);
         console.log(result);
       });
+  }
+
+  initiateAuthenticationWithAdminflow(email, password) {
+    const params = adminInitiateAuthParams();
+    params.AuthParameters.USERNAME = email;
+    params.AuthParameters.PASSWORD = password;
+    this.props.auth.identityServiceProvider.adminInitiateAuth(params, (error, data) => {
+      if (error) {
+        alert(error.message || JSON.stringify(err));
+        return;
+      }
+      console.log(data);
+      if (data && data.ChallengeName === 'NEW_PASSWORD_REQUIRED') {
+        const challengeParams = adminRespondToAuthChallengeParams();
+        challengeParams.ChallengeResponses.USERNAME = email;
+        challengeParams.ChallengeResponses.NEW_PASSWORD = password;
+        challengeParams.Session = data.Session;
+        this.props.auth.identityServiceProvider.adminRespondToAuthChallenge(challengeParams, (err, result) => {
+          if (error) {
+            alert(error.message || JSON.stringify(err));
+            return;
+          }
+          console.log(result);
+          this.updateEmailNotVerified(email);
+          this.sendEmailToVerifyAccount(email, password);
+          this.login();
+        });
+      }
+    });
+  }
+
+  updateEmailNotVerified(email) {
+    // TODO: make sure email still needs to be verified to make sure that there is no security issue
+  }
+
+  sendEmailToVerifyAccount(email, password) {
+    // TODO: With SES
+    // https://aws.amazon.com/blogs/mobile/implementing-passwordless-email-authentication-with-amazon-cognito/
+    // 
   }
 
   signUpUser(email, password, attributes) {
@@ -101,7 +147,7 @@ class Page extends React.Component {
         alert(err.message || JSON.stringify(err));
       }
       if (data) {
-        alert(`Successfully added '${username}' to '${groupName}'`);
+        console.log(`Successfully added '${username}' to '${groupName}'`);
       }
     });
   }

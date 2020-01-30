@@ -46,6 +46,27 @@ export const createUserParams = () => ({
     UserAttributes: undefined,
     TemporaryPassword: undefined,
     ForceAliasCreation: false,
-    MessageAction: undefined,
+    MessageAction: 'SUPPRESS',
     DesiredDeliveryMediums: ['EMAIL']
+});
+
+export const adminInitiateAuthParams = () => ({
+    AuthFlow: 'ADMIN_NO_SRP_AUTH',
+    ClientId: settings.CLIENT_ID,
+    UserPoolId: settings.USER_POOL_ID,
+    AuthParameters: {
+        USERNAME: undefined,
+        PASSWORD: undefined
+    }
+});
+
+export const adminRespondToAuthChallengeParams = () => ({
+    ChallengeName: 'NEW_PASSWORD_REQUIRED',
+    ClientId: settings.CLIENT_ID,
+    UserPoolId: settings.USER_POOL_ID,
+    ChallengeResponses: {
+        USERNAME: undefined,
+        NEW_PASSWORD: undefined,
+    },
+    Session: undefined
 });

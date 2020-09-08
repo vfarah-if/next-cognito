@@ -1,9 +1,9 @@
 
 const settings = {
     REGION: 'eu-west-1',
-    USER_POOL_ID: 'eu-west-1_TyooduV2g',
-    CLIENT_ID: '1lfdrqalppb6c1nt2ieovi1ref',
-    COGNITO_HOSTING_DOMAIN: 'identity-worldathletics-test.auth.eu-west-1.amazoncognito.com',
+    USER_POOL_ID: '<ADD YOURS>',
+    CLIENT_ID: '<ADD YOURS>',
+    COGNITO_HOSTING_DOMAIN: '<ADD YOURS>',
     COGNITO_LOGIN_REDIRECT_SIGNIN_URL: 'http://localhost:3000',
     COGNITO_LOGIN_REDIRECT_SIGNOUT_URL: 'http://localhost:3000',
     TOKEN_SCOPES: ['email', 'openid', 'profile', 'aws.cognito.signin.user.admin'],
